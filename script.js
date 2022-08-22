@@ -1,37 +1,6 @@
-const botondarkmode = document.getElementById("botondarkmode")
-const botonlightmode = document.getElementById("botonlightmode")
-
-let Mode 
-if(localStorage.getItem("Mode")){
-    Mode = localStorage.getItem("Mode")
-}else{
-    localStorage.setItem("Mode", "light")
-}
-
-if(Mode == "dark"){
-    document.body.classList.add("darkmode")
-}
-botondarkmode.addEventListener("click", ()=>{
-    document.body.classList.add("darkmode")
-    localStorage.setItem("Mode", "dark")
-})
-botonlightmode.addEventListener("click", ()=>{
-    document.body.classList.remove("darkmode")
-    localStorage.setItem("Mode", "light")
-
-})
-
-
-
-const valorBoleta = 5000
-const reservaciones = []
-const formulario = document.getElementById("formulario")
-const tiquete = ""
-
-//Clases
+//se crea el class que servira para agrupar cada grupo de indicaciones dentro de un objeto
 class tiquetes{
-    constructor(id,pelicula = "",hora = "",clientes = 0,bebida = "",palomitas = "",comida = ""){
-        this.id = id
+    constructor(pelicula = "",hora = "",clientes = 0,bebida = "",palomitas = "",comida = ""){
         this.pelicula = pelicula
         this.hora = hora
         this.clientes = clientes
@@ -39,6 +8,20 @@ class tiquetes{
         this.palomitas = palomitas
         this.comida = comida
     }
+}
+//se crean las constantes que se usaran para pedir los datos del formulario y guardarlos en el array
+const valorBoleta = 5000
+const reservaciones = []
+const formulario = document.getElementById("formulario")
+const tiquete = ""
+
+
+
+//se crea el local storage del de la tiquetera para que guarde todos los tiquetes sin que se borren
+if(localStorage.getItem("tiquetera")){
+    localStorage.getItem("tiquetera")
+}else{
+    localStorage.setItem("tiquetera",(reservaciones))
 }
 
 //funcion controladora de la pelicula a escoger
@@ -55,7 +38,7 @@ const verificarPelicula = (x) =>{
             break
         default:
             alert("no ingreses peliculas que no estan en cartelera")
-            reservaciones.splice(i,1)
+            reservaciones.splice()
             break
     }
 }
@@ -73,41 +56,31 @@ const verificarHora = (h) =>{
             break
         default:
             alert("ingresa horarios validos")
-            reservaciones.splice(i,1)
+            reservaciones.splice()
             break
     }
 }
 const verificarClientes = (c) =>{
-    if((isNaN(c))||(c > 5)||(c < 1)){
+    if(isNaN(c)){
         alert("ingresa caracteres validos")
-        reservaciones.splice(i,1)
+        reservaciones.splice()
     }
     if(c > 5){
         alert("el maximo de clientes por grupo es de 5 personas")
-        reservaciones.splice(i,1)
+        reservaciones.splice()
     }
     if(c < 1){
         alert("el minimo de clientes es de 1 personas")
-        reservaciones.splice(i,1)
+        reservaciones.splice()
     }
 }
-let CamId = 1
-let i = 0
-const identificador = () =>{
-    for(i ; i < CamId ; i++){
-        console.log(`el id cambio a ${i}`)
-    }
-    CamId += 1
-}
-if(localStorage.getItem("tiquetera")){
-    localStorage.getItem("tiquetera")
-}else{
-    localStorage.setItem("tiquetera",(reservaciones))
-}
+
+
 
 
 formulario.addEventListener("submit",(e) => {
     e.preventDefault()
+
     const carteleras = document.getElementById("carteleras").value
     const horarios = document.getElementById("horarios").value
     const cantidadClientes = document.getElementById("cantidadClientes").value
@@ -115,8 +88,7 @@ formulario.addEventListener("submit",(e) => {
     const comidaA = document.getElementById("comidaA").value
     const palomitasA = document.getElementById("palomitasA").value
 
-    identificador()
-    const tiquete = new tiquetes(i,carteleras,horarios,cantidadClientes,bebidaA,palomitasA,comidaA)
+    const tiquete = new tiquetes(carteleras,horarios,cantidadClientes,bebidaA,palomitasA,comidaA)
     reservaciones.push(tiquete)
    
 
@@ -151,12 +123,14 @@ botonTiquetera.addEventListener('click', () => {
         `
     })
 })
+//se declara el boton y el div vacio que los dos serviran para mostrar las ventas vendidas 
 const botonVentas = document.getElementById("botonVentas")
 const divVentas = document.getElementById("divVentas")
+//este codigo lo que hace es llamar a los botones desde el html para que ejecute el mostrar los tiquetes ultimos que se han vendido
 botonVentas.addEventListener('click', () => {
     const ultimasVentas = JSON.parse(localStorage.getItem("tiquetera"))
-
     divVentas.innerHTML = ""
+
     ultimasVentas.forEach((venta, indice) => {
         divVentas.innerHTML += `
             <div class="card" id="tiquete${indice}" style="width: 18rem;margin:3px;">
