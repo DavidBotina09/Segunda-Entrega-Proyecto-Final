@@ -11,18 +11,17 @@ class tiquetes{
 }
 //se crean las constantes que se usaran para pedir los datos del formulario y guardarlos en el array
 const valorBoleta = 5000
-const reservaciones = []
+let reservaciones = []
 const formulario = document.getElementById("formulario")
 const tiquete = ""
 const inputs = document.querySelectorAll("#formulario input")
 
 
-
 //se crea el local storage del de la tiquetera para que guarde todos los tiquetes sin que se borren
-if(localStorage.getItem("tiquetera")){
-    localStorage.getItem("tiquetera")
+if(localStorage.getItem(`tiquetera`)){
+    reservaciones = JSON.parse(localStorage.getItem(`tiquetera`))
 }else{
-    localStorage.setItem("tiquetera",(reservaciones))
+    localStorage.setItem(`tiquetera`,(reservaciones))
 }
 
 //funcion controladora de la pelicula a escoger
@@ -83,7 +82,7 @@ let bebidaA
 let comidaA 
 let palomitasA 
 
-formulario.addEventListener("submit",(e) => {
+formulario.addEventListener(`submit`,(e) => {
     e.preventDefault()
 
     carteleras = document.getElementById("carteleras").value
@@ -100,7 +99,7 @@ formulario.addEventListener("submit",(e) => {
     const tiquete = new tiquetes(carteleras,horarios,cantidadClientes,bebidaA,palomitasA,comidaA)
     reservaciones.push(tiquete)
    
-    localStorage.setItem("tiquetera",JSON.stringify(reservaciones))
+    localStorage.setItem(`tiquetera`,JSON.stringify(reservaciones))
     formulario.reset()
     console.log(tiquete)
     console.log(reservaciones)
@@ -130,27 +129,29 @@ botonTiquetera.addEventListener('click', () => {
 const botonVentas = document.getElementById("botonVentas")
 const divVentas = document.getElementById("divVentas")
 //este codigo lo que hace es llamar a los botones desde el html para que ejecute el mostrar los tiquetes ultimos que se han vendido
-/*botonVentas.addEventListener('click', () => {
-    const ultimasVentas = JSON.parse(localStorage.getItem("tiquetera"))
-    divVentas.innerHTML = ""
+botonVentas.addEventListener(`click`, () =>{
+    const tickStorage = JSON.parse(localStorage.getItem(`tiquetera`))
 
-    ultimasVentas.forEach((venta, indice) => {
+    divVentas.innerHTML = ""
+    tickStorage.forEach((ticket,indice) =>{
         divVentas.innerHTML += `
-            <div class="card" id="tiquete${indice}" style="width: 18rem;margin:3px;">
+            <div class="card" id="ticket${indice}" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">PELICULA: ${venta.pelicula}</h5>
-                    <p class="card-text">Hora: ${venta.hora}</p>
-                    <p class="card-text">Clientes: ${venta.clientes}</p>
-                    <p class="card-text">Bebida: ${venta.bebida}</p>
-                    <p class="card-text">Palomitas: ${venta.palomitas}</p>
-                    <p class="card-text">Comida: ${venta.comida}</p>
-                    <p class="card-text">total a pagar es $${valorBoleta * venta.clientes}</p>
+                    <h5 class="card-title">TICKETE CINE COLOMBIA</h5>
+                    <p class="card-text">PELICULA:${ticket.pelicula}</p>
+                    <p class="card-text">HORARIO:${ticket.hora}</p>
+                    <p class="card-text">CLIENTES:${ticket.clientes}</p>
+                    <p class="card-text">BEBIDA:${ticket.bebida}</p>
+                    <p class="card-text">CRISPETAS:${ticket.palomitas}</p>
+                    <p class="card-text">COMIDA:${ticket.comida}</p>
+                    <p class="card-text">el valor a pagar es$${valorBoleta * ticket.clientes}</p>
+                    <button class="btn btn-danger">ELIMINAR TICKET</button>
                 </div>
             </div>
-        
         `
     })
-})*/
+})
 
 
 
