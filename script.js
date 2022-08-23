@@ -96,11 +96,27 @@ formulario.addEventListener(`submit`,(e) => {
     verificarHora(horarios)
     verificarClientes(cantidadClientes)
 
-    const tiquete = new tiquetes(carteleras,horarios,cantidadClientes,bebidaA,palomitasA,comidaA)
-    reservaciones.push(tiquete)
+    if(carteleras === null){
+        alert("no se confirmo tu tickete la pelicula esta mal señalada")
+    }else if(horarios === null){
+        alert("no se confirmo tu tickete el horario esta mal señalado")
+    }else if(cantidadClientes === null){
+        alert("no se confirmo tu tickete los clientes estan mal señalados")
+    }else{
+        const tiquete = new tiquetes(carteleras,horarios,cantidadClientes,bebidaA,palomitasA,comidaA)
+        reservaciones.push(tiquete)
+    }
+
+
    
     localStorage.setItem(`tiquetera`,JSON.stringify(reservaciones))
     formulario.reset()
+    carteleras = ""
+    horarios = ""
+    cantidadClientes = ""
+    bebidaA = ""
+    comidaA = ""
+    palomitasA = ""
     console.log(tiquete)
     console.log(reservaciones)
 })
