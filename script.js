@@ -14,6 +14,7 @@ const valorBoleta = 5000
 let reservaciones = []
 const formulario = document.getElementById("formulario")
 const tiquete = ""
+let reservacionesmostrar = []
 
 //se crea el local storage del de la tiquetera para que guarde todos los tiquetes sin que se borren
 if(localStorage.getItem(`tiquetera`)){
@@ -103,6 +104,7 @@ formulario.addEventListener(`submit`,(e) => {
     }else{
         const tiquete = new tiquetes(carteleras,horarios,cantidadClientes,bebidaA,palomitasA,comidaA)
         reservaciones.push(tiquete)
+        reservacionesmostrar.push(tiquete)
     }
 
 
@@ -122,7 +124,7 @@ const botonTiquetera = document.getElementById("botonTiquetera")
 //funciones para mostrar los tiquetes
 botonTiquetera.addEventListener('click', () => {
     divReservaciones.innerHTML = ""
-    reservaciones.forEach((tiquete, indice) => {
+    reservacionesmostrar.forEach((tiquete, indice) => {
         divReservaciones.innerHTML += `
             <div class="card" id="user${indice}" style="width: 18rem;margin:3px;">
                 <div class="card-body">
