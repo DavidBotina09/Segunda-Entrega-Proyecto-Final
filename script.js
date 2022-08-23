@@ -14,6 +14,7 @@ const valorBoleta = 5000
 const reservaciones = []
 const formulario = document.getElementById("formulario")
 const tiquete = ""
+const inputs = document.querySelectorAll("#formulario input")
 
 
 
@@ -28,17 +29,17 @@ if(localStorage.getItem("tiquetera")){
 const verificarPelicula = (x) =>{
     switch(x){
         case "thor":
-            tiquete.pelicula = "Thor"
+            carteleras = "Thor"
             break
         case "telefono negro":
-            tiquete.pelicula = "Telefono Negro"
+            carteleras = "Telefono Negro"
             break
         case "los minions":
-            tiquete.pelicula = "Los Minions"
+            carteleras = "Los Minions"
             break
         default:
             alert("no ingreses peliculas que no estan en cartelera")
-            reservaciones.splice()
+            carteleras = null
             break
     }
 }
@@ -46,57 +47,59 @@ const verificarPelicula = (x) =>{
 const verificarHora = (h) =>{
     switch(h){
         case "6:30":
-            tiquete.hora = "6:30"
+            horarios = "6:30"
             break
         case "7:30":
-            tiquete.hora = "7:30"
+            horarios = "7:30"
             break
         case "9:30":
-            tiquete.hora = "9:30"
+            horarios = "9:30"
             break
         default:
             alert("ingresa horarios validos")
-            reservaciones.splice()
+            horarios = null
             break
     }
 }
 const verificarClientes = (c) =>{
     if(isNaN(c)){
         alert("ingresa caracteres validos")
-        reservaciones.splice()
+        cantidadClientes = null
     }
     if(c > 5){
         alert("el maximo de clientes por grupo es de 5 personas")
-        reservaciones.splice()
+        cantidadClientes = null
     }
     if(c < 1){
         alert("el minimo de clientes es de 1 personas")
-        reservaciones.splice()
+        cantidadClientes = null
     }
 }
 
-
-
+let carteleras 
+let horarios 
+let cantidadClientes 
+let bebidaA 
+let comidaA 
+let palomitasA 
 
 formulario.addEventListener("submit",(e) => {
     e.preventDefault()
 
-    const carteleras = document.getElementById("carteleras").value
-    const horarios = document.getElementById("horarios").value
-    const cantidadClientes = document.getElementById("cantidadClientes").value
-    const bebidaA = document.getElementById("bebidaA").value
-    const comidaA = document.getElementById("comidaA").value
-    const palomitasA = document.getElementById("palomitasA").value
+    carteleras = document.getElementById("carteleras").value
+    horarios = document.getElementById("horarios").value
+    cantidadClientes = document.getElementById("cantidadClientes").value
+    bebidaA = document.getElementById("bebidaA").value
+    comidaA = document.getElementById("comidaA").value
+    palomitasA = document.getElementById("palomitasA").value
+
+    verificarPelicula(carteleras)
+    verificarHora(horarios)
+    verificarClientes(cantidadClientes)
 
     const tiquete = new tiquetes(carteleras,horarios,cantidadClientes,bebidaA,palomitasA,comidaA)
     reservaciones.push(tiquete)
    
-
-    verificarPelicula(tiquete.pelicula)
-    verificarHora(tiquete.hora)
-    verificarClientes(tiquete.clientes)
-
-
     localStorage.setItem("tiquetera",JSON.stringify(reservaciones))
     formulario.reset()
     console.log(tiquete)
@@ -127,7 +130,7 @@ botonTiquetera.addEventListener('click', () => {
 const botonVentas = document.getElementById("botonVentas")
 const divVentas = document.getElementById("divVentas")
 //este codigo lo que hace es llamar a los botones desde el html para que ejecute el mostrar los tiquetes ultimos que se han vendido
-botonVentas.addEventListener('click', () => {
+/*botonVentas.addEventListener('click', () => {
     const ultimasVentas = JSON.parse(localStorage.getItem("tiquetera"))
     divVentas.innerHTML = ""
 
@@ -147,7 +150,7 @@ botonVentas.addEventListener('click', () => {
         
         `
     })
-})
+})*/
 
 
 
