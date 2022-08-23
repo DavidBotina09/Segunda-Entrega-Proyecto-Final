@@ -8,9 +8,3 @@ body{
     justify-content: center;
     text-align: center;
 }
-
-.darkmode{
-    background-color: black;
-    color: white;
-    transition: 1s ease;
-}
